@@ -28,6 +28,22 @@ start.bat
 sh start.sh
 ```
 
+## docker
+
+- build image
+```shell
+docker build -t io-app:v1 .
+```
+- run
+```shell
+docker run -p 8888:8081 \
+-dit io-app:v1 \
+--name io-app \
+-v /data/io-app/logs:/io-start/logs \
+-v /data/io-app/conf:/io-start/conf \
+/bin/bash
+```
+
 # 项目结构
 
 - `io-infra` 基础设施
