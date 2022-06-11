@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>io-community</artifactId>
+        <groupId>io.mvvm.community</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>io-start</artifactId>
+    <packaging>jar</packaging>
+    <name>io-start</name>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <!-- service provider -->
+        <dependency>
+            <groupId>io.mvvm.community</groupId>
+            <artifactId>io-system-service-provider</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- 打包插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <appendAssemblyId>true</appendAssemblyId>
+                    <descriptors>
+                        <!-- 生成的jar包的名称前缀 -->
+                        <!--配置描述符文件-->
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!--绑定到package生命周期-->
+                        <phase>package</phase>
+                        <goals>
+                            <!--只运行一次-->
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 指定启动类，将依赖打成外部jar包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <!-- 生成的jar中，不要包含pom.xml和pom.properties这两个文件 -->
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifest>
+                            <!-- 是否要把第三方jar加入到类构建路径 -->
+                            <addClasspath>true</addClasspath>
+                            <!-- 外部依赖jar包的最终位置 -->
+                            <!-- 因为我们将第三方jar和本项目jar放在同一个目录下，这里就使用./ -->
+                            <classpathPrefix>./</classpathPrefix>
+                            <!-- 项目启动类 -->
+                            <mainClass>io.mvvm.community.IoApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
