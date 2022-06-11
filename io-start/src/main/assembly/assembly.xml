@@ -36,6 +36,14 @@
             <lineEnding>unix</lineEnding>
             <filtered>true</filtered> <!-- 是否进行属性替换 -->
         </fileSet>
+        <fileSet>
+            <directory>src/main/docker</directory>
+            <outputDirectory>docker</outputDirectory>
+            <fileMode>0755</fileMode>
+            <!--如果是脚本，一定要改为unix.如果是在windows上面编码，会出现dos编写问题-->
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered> <!-- 是否进行属性替换 -->
+        </fileSet>
         <!-- 将src/main/resources下配置文件打包到conf目录 -->
         <fileSet>
             <directory>src/main/resources</directory>
