@@ -1,6 +1,6 @@
 logging:
   file:
     path: ../logs
-    name: ${logging.file.path}/${spring.application.name}/info/log.log
+    name: ${logging.file.path}/info/log.log
   level:
     root: info

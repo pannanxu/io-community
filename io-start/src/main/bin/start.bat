@@ -1,12 +1,8 @@
 echo off
 
 set APP_NAME=${project.build.finalName}.jar
-set LOG_IMPL_FILE=logback-spring.xml
-set LOGGING_CONFIG=
-if exist ../conf/%LOG_IMPL_FILE% (
-    set LOGGING_CONFIG=-Dlogging.config=../conf/%LOG_IMPL_FILE%
-)
-set CONFIG= -Dlogging.file.path=../logs %LOGGING_CONFIG% -Dspring.config.location=../conf/
+
+set CONFIG= -Dlogging.file.path=../logs -Dspring.config.location=../conf/
 
 set DEBUG_OPTS=
 if ""%1"" == ""debug"" (

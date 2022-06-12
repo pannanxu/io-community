@@ -1,0 +1,17 @@
+FROM amazoncorretto:8-alpine3.14-jdk
+
+WORKDIR /io-start
+
+# 将压缩包添加到容器内
+ADD io-start-bin.tar.gz /
+
+# 声明服务运行在8081端口
+EXPOSE 8081
+# 声明可映射路径
+VOLUME /logs
+VOLUME /conf
+
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone
+
+ENTRYPOINT java -Dlogging.file.path=/logs -Dspring.config.location=/conf/ -Dspring.profiles.active=prod -jar /lib/io-start.jar

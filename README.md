@@ -36,11 +36,13 @@ docker build -t io-app:v1 .
 ```
 - run
 ```shell
-docker run -p 8888:8081 \
--dit io-app:v1 \
---name io-app \
--v /data/io-app/logs:/io-start/logs \
--v /data/io-app/conf:/io-start/conf \
+docker run \
+-itd \
+--privileged=true \
+-v /data/io-app/logs:/logs \
+-v /data/io-app/conf:/conf \
+-p 8888:8081 \
+io-app:v1 \
 /bin/bash
 ```
 

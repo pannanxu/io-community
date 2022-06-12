@@ -9,7 +9,8 @@
     <formats>
         <format>tar.gz</format>
     </formats>
-    <includeBaseDirectory>true</includeBaseDirectory>
+
+    <includeBaseDirectory>false</includeBaseDirectory>
 
     <!--第三方依赖设置-->
     <dependencySets>
@@ -55,6 +56,7 @@
             </includes>
             <excludes>
                 <exclude>mybatis/**</exclude> <!-- 排除 mybatis的配置文件 -->
+                <exclude>logback-spring.xml</exclude> <!-- 排除 log -->
             </excludes>
             <filtered>true</filtered> <!-- 是否进行属性替换 -->
         </fileSet>

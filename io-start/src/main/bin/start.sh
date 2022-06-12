@@ -78,12 +78,12 @@ else
 fi
 
 # 加载外部logback文件的配置
-LOG_IMPL_FILE=logback-spring.xml
+#LOG_IMPL_FILE=logback-spring.xml
 LOGGING_CONFIG=""
-if [ -f "$CONF_DIR/$LOG_IMPL_FILE" ]
-then
-    LOGGING_CONFIG="-Dlogging.config=$CONF_DIR/$LOG_IMPL_FILE"
-fi
+#if [ -f "$CONF_DIR/$LOG_IMPL_FILE" ]
+#then
+#    LOGGING_CONFIG="-Dlogging.config=$CONF_DIR/$LOG_IMPL_FILE"
+#fi
 CONFIG_FILES=" -Dlogging.file.path=$LOGS_DIR $LOGGING_CONFIG -Dspring.config.location=$CONF_DIR/ "
 echo -e "Starting the $SERVER_NAME ..."
 nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS $CONFIG_FILES -jar $DEPLOY_DIR/lib/$JAR_NAME > $STDOUT_FILE 2>&1 &

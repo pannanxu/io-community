@@ -133,7 +133,7 @@
                         <excludes>
                             <exclude>**/application*.yml</exclude>
                             <exclude>**/application*.properties</exclude>
-                            <exclude>**/logback*.xml</exclude>
+<!--                            <exclude>**/logback*.xml</exclude>-->
                             <exclude>**/bootstrap.yml</exclude>
                             <exclude>**/*.properties</exclude>
                         </excludes>
