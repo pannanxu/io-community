@@ -1,8 +1,13 @@
 package io.mvvm.community.infra.validation;
 
-import org.apache.commons.collections.CollectionUtils;
 
-import javax.validation.*;
+import org.apache.commons.collections4.CollectionUtils;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Set;
 import java.util.stream.Collectors;
 

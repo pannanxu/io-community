@@ -18,6 +18,7 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -33,63 +34,71 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
 
-        <!-- service provider -->
         <dependency>
             <groupId>io.mvvm.community</groupId>
-            <artifactId>io-system-service-provider</artifactId>
+            <artifactId>io-infra</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <!-- 打包插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <encoding>UTF-8</encoding>
-                    <appendAssemblyId>true</appendAssemblyId>
-                    <descriptors>
-                        <!-- 生成的jar包的名称前缀 -->
-                        <!--配置描述符文件-->
-                        <descriptor>src/main/assembly/assembly.xml</descriptor>
-                    </descriptors>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.sukang.app.AppApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
-                        <!--绑定到package生命周期-->
-                        <phase>package</phase>
                         <goals>
-                            <!--只运行一次-->
-                            <goal>single</goal>
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-            <!-- 指定启动类，将依赖打成外部jar包 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <!-- 生成的jar中，不要包含pom.xml和pom.properties这两个文件 -->
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                        <manifest>
-                            <!-- 是否要把第三方jar加入到类构建路径 -->
-                            <addClasspath>true</addClasspath>
-                            <!-- 外部依赖jar包的最终位置 -->
-                            <!-- 因为我们将第三方jar和本项目jar放在同一个目录下，这里就使用./ -->
-                            <classpathPrefix>./</classpathPrefix>
-                            <!-- 项目启动类 -->
-                            <mainClass>io.mvvm.community.IoApplication</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
 
 </project>

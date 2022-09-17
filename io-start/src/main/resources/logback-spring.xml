@@ -11,7 +11,7 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
 -->
 <configuration>
     <!-- 引入默认实现 -->
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <!-- 上下文名称， 使用 %contextName 调用 -->
     <contextName>${spring.application.name}</contextName>
     <!-- 定义变量 -->
@@ -24,8 +24,10 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
         %green(%msg)                        日志消息，颜色绿色
         %n                                  换行符
     -->
-    <property name="log.pattern" value="[%X{traceId}] %yellow(%d{yyyy-MM-dd HH:mm:ss}) %red([%thread]) %highlight(%-5level) %cyan(%logger{50}) - %green(%msg) %n" />
-    <property name="log.pattern.file" value="[%X{traceId}] %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg %n" />
+    <property name="log.pattern"
+              value="[%X{traceId}] %yellow(%d{yyyy-MM-dd HH:mm:ss}) %red([%thread]) %highlight(%-5level) %cyan(%logger{50}) - %green(%msg) %n"/>
+    <property name="log.pattern.file"
+              value="[%X{traceId}] %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg %n"/>
     <!-- 属性文件:在配置文件中找到对应的配置项 ${logging.file.path} -->
     <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
     <springProperty scope="context" name="logging.file.path" source="logging.file.path"/>
@@ -57,7 +59,7 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
 
     <!-- 其他日志，即非异常日志 -->
     <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logging.file.path}/info/log.log</file>
+        <file>${logging.file.path}/info.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤ERROR级别日志 -->
             <level>ERROR</level>
@@ -69,7 +71,7 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
         <!-- 日志编码格式化 -->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
-<!--                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n-->
+                <!--                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n-->
                 ${log.pattern.file}
             </pattern>
             <charset>UTF-8</charset>
@@ -77,19 +79,19 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
         <!-- 使用基于时间切分文件的策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--按时间保存日志 修改格式可以按小时、按天、月来保存-->
-            <fileNamePattern>${logging.file.path}/info/%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <fileNamePattern>${logging.file.path}/%d{yyyy-MM-dd}/info-%i.log</fileNamePattern>
             <!-- 只保留最近90天日志文件 -->
             <maxHistory>90</maxHistory>
             <!-- 1g 后拆分日志 -->
             <maxFileSize>1GB</maxFileSize>
             <!-- 用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志 -->
-<!--            <totalSizeCap>1GB</totalSizeCap>-->
+            <!--            <totalSizeCap>1GB</totalSizeCap>-->
         </rollingPolicy>
     </appender>
 
     <!-- 异常日志 -->
     <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logging.file.path}/error/log.log</file>
+        <file>${logging.file.path}/error.log</file>
         <!-- 只需要ERROR级别日志 -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
@@ -101,7 +103,7 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
             <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${logging.file.path}/error/%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <fileNamePattern>${logging.file.path}/%d{yyyy-MM-dd}/error-%i.log</fileNamePattern>
             <!-- 只保留最近90天日志文件 -->
             <maxHistory>90</maxHistory>
             <!-- 1g 后拆分日志 -->
@@ -111,7 +113,7 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
 
     <!-- 业务日志 -->
     <appender name="bizLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logging.file.path}/biz/log.log</file>
+        <file>${logging.file.path}/biz.log</file>
         <append>true</append>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤ERROR级别日志 -->
@@ -122,7 +124,7 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
             <onMismatch>ACCEPT</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${logging.file.path}/biz/%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <fileNamePattern>${logging.file.path}/%d{yyyy-MM-dd}/biz-%i.log</fileNamePattern>
             <MaxHistory>90</MaxHistory>
             <maxFileSize>1GB</maxFileSize>
         </rollingPolicy>
@@ -132,7 +134,7 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
         </encoder>
     </appender>
     <logger name="io.mvvm.core.infra.log.BizLog" level="${logging.level}" additivity="false">
-        <appender-ref ref="bizLog" />
+        <appender-ref ref="bizLog"/>
     </logger>
 
     <!--
@@ -143,19 +145,32 @@ OFF level：关闭所有日志记录开关；是最高等级的，用于关闭�
      -->
 
     <!-- Spring日志级别控制  -->
-    <logger name="org.springframework" level="info" />
+    <logger name="org.springframework" level="info"/>
+    <logger name="io.undertow" level="info"/>
+    <logger name="io.swagger" level="error"/>
+    <logger name="org.springdoc" level="error"/>
+    <logger name="com.baomidou.mybatisplus.core.MybatisConfiguration" level="error"/>
+    <logger name="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean" level="info" />
+    <logger name="org.mybatis.spring.mapper.ClassPathMapperScanner" level="error"/>
+    <logger name="org.springframework.web.servlet" level="error"/>
+    <logger name="org.xnio" level="error"/>
+    <logger name="Validator" level="error"/>
+    <logger name="org.hibernate.validator" level="error"/>
+    <logger name="com.zaxxer" level="error"/>
+    <logger name="io.netty" level="error"/>
+    <logger name="io.lettuce" level="error"/>
 
     <!-- 异步日志 -->
     <appender name="asyncConsoleLog" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="consoleLog" />
-        <appender-ref ref="fileInfoLog" />
-        <appender-ref ref="fileErrorLog" />
+        <appender-ref ref="consoleLog"/>
+        <appender-ref ref="fileInfoLog"/>
+        <appender-ref ref="fileErrorLog"/>
     </appender>
     <appender name="asyncFileInfoLog" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="fileInfoLog" />
+        <appender-ref ref="fileInfoLog"/>
     </appender>
     <appender name="asyncFileErrorLog" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="fileErrorLog" />
+        <appender-ref ref="fileErrorLog"/>
     </appender>
 
     <root level="${logging.level.root}">

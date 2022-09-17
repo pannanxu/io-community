@@ -11,8 +11,6 @@
 
     <modules>
         <module>io-infra</module>
-        <module>io-service-provider</module>
-        <module>io-service-api</module>
         <module>io-start</module>
     </modules>
 
@@ -20,16 +18,26 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <spring-boot.version>2.7.0</spring-boot.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <commons-lang3.version>3.12.0</commons-lang3.version>
-        <commons-collections.version>3.2.2</commons-collections.version>
-        <commons-io.version>2.5</commons-io.version>
-        <commons-codec.version>1.15</commons-codec.version>
-        <swagger.version>3.0.3</swagger.version>
+        <spring.boot.version>2.7.3</spring.boot.version>
 
-        <junit.version>4.13.2</junit.version>
+        <commons.collections.version>4.4</commons.collections.version>
+        <commons.io.version>2.11.0</commons.io.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <guava.version>31.1-jre</guava.version>
+        <springdoc.version>1.6.11</springdoc.version>
+        <jwt.version>0.9.1</jwt.version>
+        <bitwalker.version>1.21</bitwalker.version>
+        <gson.version>2.8.7</gson.version>
+
+        <mybatis.plus.version>3.5.2</mybatis.plus.version>
+        <druid.version>1.2.3</druid.version>
+        <p6spy.version>3.8.1</p6spy.version>
+        <pagehelper.version>1.4.3</pagehelper.version>
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -42,6 +50,11 @@
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -49,71 +62,147 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!-- apache commons -->
+            <!-- commons -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>${commons-collections.version}</version>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons.collections.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
+                <version>${commons.io.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons-codec.version}</version>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
             <!-- api doc -->
             <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
-                <version>${swagger.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webmvc-core</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-security</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <!-- jwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+            <!-- user agent -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
+            </dependency>
+            <!-- ddd cola -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>cola-core</artifactId>
+                <version>3.0.0</version>
+                <type>jar</type>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>cola-common</artifactId>
+                <version>3.0.0</version>
+                <type>jar</type>
+            </dependency>
+            <!-- gson -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <!-- 编解码 -->
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-runtime</artifactId>
+                <version>1.7.4</version>
+            </dependency>
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-core</artifactId>
+                <version>1.7.4</version>
+            </dependency>
+            <!-- ORM: MyBatisPlus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <!-- 连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!-- 打印SQL日志 -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+            <!-- 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>3.1.1</version>
             </dependency>
 
-            <!-- infra -->
+
             <dependency>
                 <groupId>io.mvvm.community</groupId>
                 <artifactId>io-infra</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
-            <!-- service api -->
-            <dependency>
-                <groupId>io.mvvm.community</groupId>
-                <artifactId>io-system-service-api</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-
-            <!-- service provider -->
-            <dependency>
-                <groupId>io.mvvm.community</groupId>
-                <artifactId>io-system-service-provider</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
 
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-                <!-- 编译指令版本 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -121,49 +210,39 @@
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
-                        <encoding>UTF-8</encoding>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
-                <!-- 打jar包时忽略配置文件 -->
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.2</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>**/application*.yml</exclude>
-                            <exclude>**/application*.properties</exclude>
-                            <exclude>**/logback*.xml</exclude>
-                            <exclude>**/bootstrap.yml</exclude>
-                            <exclude>**/*.properties</exclude>
-                        </excludes>
-                    </configuration>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
 
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <url>https://repo.spring.io/snapshot</url>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <url>https://repo.spring.io/snapshot</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <url>https://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>spring-snapshots</id>-->
+<!--            <url>https://repo.spring.io/snapshot</url>-->
+<!--            <snapshots><enabled>true</enabled></snapshots>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>spring-milestones</id>-->
+<!--            <url>https://repo.spring.io/milestone</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+<!--    <pluginRepositories>-->
+<!--        <pluginRepository>-->
+<!--            <id>spring-snapshots</id>-->
+<!--            <url>https://repo.spring.io/snapshot</url>-->
+<!--        </pluginRepository>-->
+<!--        <pluginRepository>-->
+<!--            <id>spring-milestones</id>-->
+<!--            <url>https://repo.spring.io/milestone</url>-->
+<!--        </pluginRepository>-->
+<!--    </pluginRepositories>-->
 
 
 

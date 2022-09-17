@@ -1,6 +1,17 @@
+
+# 关闭 mybatis 的 sql 日志
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  mapper-locations: classpath*:/mybatis/mapper/**/*.xml
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
 logging:
   file:
-    path: ../logs
-    name: ${logging.file.path}/${spring.application.name}/info/log.log
+    path: ./logs
+    name: ${logging.file.path}/info/log.log
   level:
-    root: info
+    root: debug
